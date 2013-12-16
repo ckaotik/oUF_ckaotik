@@ -16,7 +16,7 @@ local config = {
 	},
 	default = {
 		-- inverted y-coords to allow filling the texture bottom->top. texture matches the crazyness
-		fill = {'Interface\\AddOns\\'..addonName..'\\media\\combo', {0/64, 8/64, 8/16, 0/16}},
+		fill = {'Interface\\AddOns\\'..addonName..'\\media\\combo', { 0/64,  8/64, 8/16,  0/16}},
 		bg   = {'Interface\\AddOns\\'..addonName..'\\media\\combo', {32/64, 48/64, 0/16, 16/16}},
 		glow = {'Interface\\AddOns\\'..addonName..'\\media\\combo', {48/64, 64/64, 0/16, 16/16}},
 		size = {8, 8},
