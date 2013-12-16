@@ -85,7 +85,7 @@ function ns.RuneBar(self, unit)
 		      border:SetPoint('TOPLEFT', -padding, padding)
 		      border:SetPoint('BOTTOMRIGHT', padding, -padding)
 		      border:SetTexture('Interface\\AddOns\\'..addonName..'\\media\\combo')
-		      border:SetTexCoord(32/64, 48/64, 0, 1)
+		      border:SetTexCoord(16/64, 32/64, 0/16, 16/16)
 		rune.border = border
 
 		if index == 1 then

@@ -83,7 +83,7 @@ function ns.CPoints(self, unit)
 		      border:SetPoint('TOPLEFT', point, 'TOPLEFT', -padding, padding)
 		      border:SetPoint('BOTTOMRIGHT', point, 'BOTTOMRIGHT', padding, -padding)
 		      border:SetTexture('Interface\\AddOns\\'..addonName..'\\media\\combo')
-		      border:SetTexCoord(32/64, 48/64, 0/16, 16/16)
+		      border:SetTexCoord(16/64, 32/64, 0/16, 16/16)
 		point.border = border
 
 		if index == 1 then

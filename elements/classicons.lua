@@ -1,7 +1,5 @@
 local addonName, ns, _ = ...
 
-local _, unitClass = UnitClass('player')
-
 local MAX_CLASS_ICONS = 5
 local iconSize = 8
 local padding = 4
@@ -68,6 +66,12 @@ function ns.ClassIcons(self, unit)
 	      classIcons:SetSize(MAX_CLASS_ICONS * (iconSize + 2*padding), (iconSize + 2*padding))
 	-- classIcons.PostUpdateRune = PostUpdateRune
 
+	local _, unitClass = UnitClass('player')
+	if unitClass ~= "MONK" or unitClass ~= "PRIEST" or unitClass ~= "PALADIN" or unitClass ~= 'WARLOCK' then
+		classIcons:SetSize(0, 0)
+		return classIcons
+	end
+
 	for index = 1, MAX_CLASS_ICONS do
 		local cIcon = CreateFrame('StatusBar', nil, classIcons, nil, index)
 		      cIcon:SetStatusBarTexture('Interface\\AddOns\\'..addonName..'\\media\\combo')
@@ -84,7 +88,7 @@ function ns.ClassIcons(self, unit)
 		      border:SetPoint('TOPLEFT', -padding, padding)
 		      border:SetPoint('BOTTOMRIGHT', padding, -padding)
 		      border:SetTexture('Interface\\AddOns\\'..addonName..'\\media\\combo')
-		      border:SetTexCoord(32/64, 48/64, 0, 1)
+		      border:SetTexCoord(16/64, 32/64, 0/16, 16/16)
 		cIcon.border = border
 
 		if index == 1 then
