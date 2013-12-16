@@ -1,0 +1,31 @@
+## Interface: 50400
+## Title: oUF_ckaotik
+## Notes: yet another oUF layout
+## Author: ckaotik
+## Version: @project-version@
+
+## Dependencies: oUF
+## OptionalDeps: Masque
+## SavedVariables: oUF_ckaotikDB
+
+#@no-lib-strip@
+# libraries
+libs\LibStub.lua
+libs\LibMovable-1.0\LibMovable-1.0.lua
+#@end-no-lib-strip@
+
+# elements
+elements\auras.lua
+elements\castbar.lua
+elements\classicons.lua
+elements\cpoints.lua
+elements\eclipsebar.lua
+elements\health.lua
+elements\power.lua
+elements\runebar.lua
+elements\totems.lua
+elements\shared.lua
+
+tags.lua
+core.lua
+options.lua
