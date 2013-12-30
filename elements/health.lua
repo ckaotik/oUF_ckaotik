@@ -43,10 +43,10 @@ local function PostUpdateHealth(element, unit, currentHealth, maxHealth)
 	      percentString = UnitIsEnemy(unit, 'player') and ceil(percentString) or floor(percentString)
 	local numDigits     = #element.digits
 
-	local overrideCharacter = unit:find('^boss') and 'BOSS'
-	    or not UnitIsConnected(unit) and 'OFFLINE'
-		or UnitIsDead(unit)  and 'DEAD'
+	local overrideCharacter = UnitIsDead(unit)  and 'DEAD'
+		or unit:find('^boss') and 'BOSS'
 		or UnitIsGhost(unit) and 'GHOST'
+		or not UnitIsConnected(unit) and 'OFFLINE'
 		or nil
 
 	-- relay changes to single digits

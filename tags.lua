@@ -14,13 +14,13 @@ local function UpdateAwayTime(unit)
 	end
 end --]]
 
-local AbbreviateLargeNumbers
-do
-	-- change ' K' to 'k'
-	SECOND_NUMBER_CAP = SECOND_NUMBER_CAP:trim():lower()
-	FIRST_NUMBER_CAP  = FIRST_NUMBER_CAP:trim():lower()
-	AbbreviateLargeNumbers = _G.AbbreviateLargeNumbers
-end
+-- local AbbreviateLargeNumbers
+-- do
+-- 	-- change ' K' to 'k'
+-- 	SECOND_NUMBER_CAP = SECOND_NUMBER_CAP:trim():lower()
+-- 	FIRST_NUMBER_CAP  = FIRST_NUMBER_CAP:trim():lower()
+-- 	AbbreviateLargeNumbers = _G.AbbreviateLargeNumbers
+-- end
 
 local statusTexture = 'Interface\\AddOns\\'..addonName..'\\media\\statusicons'
 oUF.Tags.Events['ckaotik:combat'] = 'PLAYER_REGEN_DISABLED PLAYER_REGEN_ENABLED'
@@ -74,8 +74,10 @@ oUF.Tags.Events['ckaotik:power'] = strjoin(' ', oUF.Tags.Events['curpp'], oUF.Ta
 oUF.Tags.Methods['ckaotik:power'] = function(unit)
 	local current, max = UnitPower(unit), UnitPowerMax(unit)
 	local text = AbbreviateLargeNumbers(max)
-	if current == 0 then
-		text = AbbreviateLargeNumbers(current)
+	if max == 0 then
+		return
+	elseif current == max then
+		text = AbbreviateLargeNumbers(max)
 	elseif current ~= max then
 		text = string.format('%s/%s', AbbreviateLargeNumbers(current), text)
 	end
@@ -173,7 +175,7 @@ oUF.Tags.Methods["ckaotik:threat"] = function(unit)
 		tankUnit = 'pet'
 	end
 
-	local unitPrefix = IsInRaid() and 'raid' or 'group'
+	local unitPrefix = IsInRaid() and 'raid' or 'party'
 	for i = 1, GetNumGroupMembers() do
 		-- check group units for their threat
 		_, _, unitThreat = UnitDetailedThreatSituation(unitPrefix..i, unit)
@@ -212,8 +214,13 @@ end
 oUF.Tags.Events['perhp:boss']  = oUF.Tags.Events['perhp'] .. ' UNIT_HEALTH_FREQUENT'
 oUF.Tags.Methods['perhp:boss'] = oUF.Tags.Methods['perhp']
 
-oUF.Tags.Events['name:boss']  = oUF.Tags.Events['name'] .. ' INSTANCE_ENCOUNTER_ENGAGE_UNIT'
-oUF.Tags.Methods['name:boss'] = oUF.Tags.Methods['name']
+oUF.Tags.Events['name:boss']  = 'UNIT_NAME_UPDATE UNIT_TARGETABLE_CHANGED INSTANCE_ENCOUNTER_ENGAGE_UNIT'
+oUF.Tags.SharedEvents['INSTANCE_ENCOUNTER_ENGAGE_UNIT'] = true
+oUF.Tags.Methods['name:boss'] = function(unit, ...)
+	print('update name', unit, ...)
+	local name = UnitName(unit)
+	return name
+end
 
 oUF.Tags.Events['afkdnd'] = 'PLAYER_FLAGS_CHANGED'
 oUF.Tags.Methods['afkdnd'] = function(unit)

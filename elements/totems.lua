@@ -85,6 +85,10 @@ local function PostUpdate(element, index, haveTotem, name, start, duration, icon
 		totem.expires = start + duration
 		totem:SetMinMaxValues(0, duration)
 		totem:SetScript('OnUpdate', OnUpdate)
+
+		if totem.glow.animation then
+			totem.glow.animation:Stop()
+		end
 		totem.glow:SetAlpha(0)
 	else
 		totem:SetValue(0)

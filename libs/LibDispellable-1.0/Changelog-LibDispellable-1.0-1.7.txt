@@ -1,0 +1,13 @@
+tag 1.7
+cd9dbe3d923a48254594674e5731c5c6306390c5
+Adirelle <adirelle@gmail.com>
+2013-11-27 14:09:52 +0100
+
+Bugfixes.
+
+
+--------------------
+
+Adirelle:
+	- Have IterateDispellableAuras list every dispellable (de)buffs inconditionnaly when its third argument is true.
+	It was ignoring all auras if the player did not know any dispel spell.

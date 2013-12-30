@@ -14,10 +14,14 @@ end
 local function PlayerStyle(self, unit)
 	local _, class = UnitClass(unit)
 
+	-- castbar
+	-- self.Castbar = ns.Castbar(self, unit)
+	-- self.Castbar:SetPoint('LEFT', '$parent', 'RIGHT')
+
 	-- status icons
 	local status = self:CreateFontString(nil, nil, 'GameFontNormalSmall')
 	      status:SetPoint('BOTTOMRIGHT', self.powerThreat, 'TOPRIGHT')
-	self:Tag(status, '[ckaotik:combat][ckaotik:resting][ckaotik:leader][ckaotik:masterlooter][ckaotik:pvp][ckaotik:assistant]')
+	self:Tag(status, '[ckaotik:pvp][ckaotik:assistant][ckaotik:masterlooter][ckaotik:combat][ckaotik:leader][ckaotik:resting]')
 
 	-- class specific things
 	local bottomOffset = 0
@@ -28,6 +32,7 @@ local function PlayerStyle(self, unit)
 	elseif class == 'DRUID' then
 		self.EclipseBar = ns.EclipseBar(self, unit)
 		self.EclipseBar:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT')
+		ApplyFontSettings(self.EclipseBar.counter, ns.db.comboTarget) -- TODO
 		bottomOffset = self.EclipseBar:GetHeight()
 	elseif class == 'ROGUE' then
 		self.CPoints = ns.CPoints(self, unit)
@@ -36,13 +41,17 @@ local function PlayerStyle(self, unit)
 		local cptarget = self:CreateFontString(nil, nil, 'GameFontNormal')
 		      cptarget:SetPoint('TOPRIGHT', self.CPoints, 'BOTTOMRIGHT', 0, -2)
 		ApplyFontSettings(cptarget, ns.db.comboTarget)
-		self:Tag(cptarget, '› [ckaotik:cptarget]')
+		self:Tag(cptarget, '[› >ckaotik:cptarget]')
 
 		bottomOffset = self.CPoints:GetHeight() + 2 + cptarget:GetHeight()
 	else
+		--
+	end
+
+	if class == 'WARLOCK' or class == 'PRIEST' or class == 'MONK' or class == 'PALADIN' then
 		self.ClassIcons = ns.ClassIcons(self, unit)
 		self.ClassIcons:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT')
-		bottomOffset = self.ClassIcons:GetHeight()
+		bottomOffset = (bottomOffset or 0) + self.ClassIcons:GetHeight()
 	end
 
 	self.Totems = ns.Totems(self, unit)
@@ -99,7 +108,7 @@ function ns.SharedStyle(self, unit, isSingle)
 
 	-- TODO: use these variables!
 	local isBoss = unit:find('^boss')
-	local side   = (unit == 'player' or isBoss) and 'RIGHT' or 'LEFT'
+	local side   = (unit == 'player' or unit == 'pet' or isBoss) and 'RIGHT' or 'LEFT'
 	local style  = (unit == 'player' or unit == 'target' or unit == 'focus') and 'default'
 		or isBoss and 'boss'
 		or 'mini'
@@ -133,12 +142,13 @@ function ns.SharedStyle(self, unit, isSingle)
 	else
 		powerThreat:SetPoint('BOTTOMLEFT', self.Health, 'BOTTOMRIGHT',  4, 0)
 	end
+	-- ‹›
 	if unit == 'player' then
-		self:Tag(powerThreat, '[ckaotik:power] · [ckaotik:health]')
+		self:Tag(powerThreat, '[ckaotik:power< · ][ckaotik:health]')
 	elseif isBoss then
-		self:Tag(powerThreat, '[ckaotik:threat] · [perhp:boss]%')
+		self:Tag(powerThreat, '[ckaotik:threat< · ][ckaotik:power< · ][perhp:boss]%')
 	else
-		self:Tag(powerThreat, '[ckaotik:health] · [ckaotik:power] [ckaotik:threat]')
+		self:Tag(powerThreat, '[ckaotik:health][ · >ckaotik:power][ · >ckaotik:threat]')
 	end
 
 	-- unit name
@@ -148,7 +158,7 @@ function ns.SharedStyle(self, unit, isSingle)
 
 	if style == 'mini' then
 		name:SetFontObject(_G.GameFontNormal)
-		name:SetPoint('LEFT')
+		name:SetPoint(side)
 	elseif side == 'RIGHT' then
 		name:SetPoint('BOTTOMRIGHT', self.powerThreat, 'TOPRIGHT')
 	else
@@ -156,27 +166,39 @@ function ns.SharedStyle(self, unit, isSingle)
 	end
 	if isBoss then
 		self:Tag(name, '[ckaotik:unitcolor][name:boss]')
-	elseif unit ~= 'target' and unit:find('target$') then
-		self:Tag(name, '› [ckaotik:youname] @[perhp]%')
+	elseif style == 'mini' then
+		self:Tag(name, '[ >ckaotik:youname< ][@>perhp<%]')
 	elseif unit ~= 'player' then
 		self:Tag(name, '[ckaotik:unitcolor][name]|r[afkdnd]')
 	end
 
 	-- raid marker
-	local raidIcon = self:CreateTexture()
+	local raidIcon = self:CreateTexture(nil, 'ARTWORK', nil, 1)
 	      raidIcon:SetTexture('Interface\\AddOns\\'..addonName..'\\media\\raidicons')
 	self.RaidIcon = raidIcon
 
 	if isBoss then
 		raidIcon:SetSize(24, 24)
-		raidIcon:SetPoint('BOTTOMRIGHT', self.Health, 5, -5)
+		raidIcon:SetPoint('BOTTOMRIGHT', self.Health, 4, -4)
 	else
 		raidIcon:SetSize(40, 40)
 		if side == 'RIGHT' then
-			raidIcon:SetPoint('LEFT', self.Health, 'RIGHT', 5, 0)
+			raidIcon:SetPoint('LEFT', self.Health, 'RIGHT', 4, 0)
 		else
-			raidIcon:SetPoint('RIGHT', self.Health, 'LEFT', -5, 0)
+			raidIcon:SetPoint('RIGHT', self.Health, 'LEFT', -4, 0)
 		end
+	end
+
+	-- auras
+	if unit == 'target' or unit == 'focus' then
+		self.Buffs = ns.Auras(self, unit)
+		self.Buffs:SetPoint('TOPLEFT', self, 'BOTTOMLEFT', 0, -4)
+		self.Buffs.showStealableBuffs = true
+		self.Buffs.showBuffType = false
+
+		self.Debuffs = ns.Auras(self, unit, true)
+		self.Debuffs:SetPoint('TOPLEFT', self.Buffs, 'BOTTOMLEFT', 0, -4)
+		self.Debuffs.showDebuffType = true
 	end
 
 	-- unit specific styles
@@ -188,6 +210,6 @@ function ns.SharedStyle(self, unit, isSingle)
 	if style == 'default' or style == 'boss' then
 		self:SetSize(175, 50)
 	elseif style == 'mini' then
-		self:SetSize(125, 16)
+		self:SetSize(125, 20)
 	end
 end

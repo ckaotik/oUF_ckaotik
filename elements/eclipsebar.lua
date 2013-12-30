@@ -91,8 +91,7 @@ function ns.EclipseBar(self, unit)
 		  direction:SetTexCoord(0, 22/256, 0, 22/64)
 	eclipseBar.direction = direction
 
-	local counter = eclipseBar:CreateFontString(nil, 'OVERLAY')
-		  counter:SetFontObject('UFFontMedium')
+	local counter = eclipseBar:CreateFontString(nil, 'OVERLAY', 'GameFontNormalLarge')
 		  counter:SetPoint('RIGHT', eclipseBar, 'LEFT', -5, 0)
 	eclipseBar.counter = counter
 

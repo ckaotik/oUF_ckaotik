@@ -35,16 +35,28 @@ function ns:LSM_GetMediaKey(mediaType, value)
 	end
 end
 
+local function GetListFromTable(dataTable, seperator)
+	local output = ''
+	for _, value in pairs(dataTable) do
+		output = (output ~= '' and output..seperator or '') .. value
+	end
+	return output
+end
+
+local function GetTableFromList(dataString, seperator)
+	return { strsplit(seperator, dataString) }
+end
+
 local function Widget(key, option)
-	local widget
-	if key == 'justifyH' then
+	local key, widget = key:lower(), nil
+	if key == 'justifyh' then
 		widget = {
 			type = "select",
 			name = "Text Justification",
 
 			values = {["LEFT"] = "LEFT", ["CENTER"] = "CENTER", ["RIGHT"] = "RIGHT"},
 		}
-	elseif key == 'fontSize' then
+	elseif key == 'fontsize' then
 		widget = {
 			type = "range",
 			name = "Font Size",
@@ -54,22 +66,33 @@ local function Widget(key, option)
 		}
 	elseif key == 'font' then
 		widget = {
-			type = "select",
-			dialogControl = "LSM30_Font",
-			name = "Font Family",
+			type = 'select',
+			dialogControl = 'LSM30_Font',
+			name = 'Font Family',
 
-			values = SharedMedia:HashTable("font"),
-			get = function(info) return ns:LSM_GetMediaKey("font", GetSetting(info)) end,
+			values = SharedMedia:HashTable('font'),
+			get = function(info) return ns:LSM_GetMediaKey('font', GetSetting(info)) end,
 			set = function(info, value)
-				SetSetting(info, SharedMedia:Fetch("font", value))
+				SetSetting(info, SharedMedia:Fetch('font', value))
 			end,
 		}
-	elseif key == 'fontStyle' then
+	elseif key == 'fontstyle' then
 		widget = {
 			type = "select",
 			name = "Font Style",
 
 			values = {["NONE"] = "NONE", ["OUTLINE"] = "OUTLINE", ["THICKOUTLINE"] = "THICKOUTLINE", ["MONOCHROME"] = "MONOCHROME"},
+		}
+	elseif key:find('list$') then
+		widget = {
+			type = 'input',
+			multiline = true,
+			usage = "Insert one entry per line",
+
+			get = function(info) return GetListFromTable(GetSetting(info, "\n")) end,
+			set = function(info, value)
+				SetSetting(info, GetTableFromList(value, "\n"))
+			end,
 		}
 	elseif type(option) == 'string' then
 		widget = {
@@ -101,7 +124,6 @@ local function ParseOption(key, option)
 			bigStep = 10,
 		}
 	elseif type(option) == 'table' then
-		-- TODO: FIXME: create nested AceConfig table
 		local data = {
 			type 	= 'group',
 			inline 	= true,

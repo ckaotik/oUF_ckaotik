@@ -12,10 +12,11 @@
 # libraries
 libs\LibStub.lua
 libs\LibMovable-1.0\LibMovable-1.0.lua
+libs\LibDispellable-1.0\LibDispellable-1.0.lua
 #@end-no-lib-strip@
 
 # elements
-elements\auras.lua
+elements\aura.lua
 elements\castbar.lua
 elements\classicons.lua
 elements\cpoints.lua
