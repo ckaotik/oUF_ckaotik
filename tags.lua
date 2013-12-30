@@ -217,7 +217,7 @@ oUF.Tags.Methods['perhp:boss'] = oUF.Tags.Methods['perhp']
 oUF.Tags.Events['name:boss']  = 'UNIT_NAME_UPDATE UNIT_TARGETABLE_CHANGED INSTANCE_ENCOUNTER_ENGAGE_UNIT'
 oUF.Tags.SharedEvents['INSTANCE_ENCOUNTER_ENGAGE_UNIT'] = true
 oUF.Tags.Methods['name:boss'] = function(unit, ...)
-	print('update name', unit, ...)
+	print('update name', unit, ..., UnitName(unit))
 	local name = UnitName(unit)
 	return name
 end

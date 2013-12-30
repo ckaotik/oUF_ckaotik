@@ -122,7 +122,7 @@ local function CustomFilter(element, unit, icon, ...)
 		return true
 	elseif isBossDebuff then -- or not isCastByPlayer then
 		return true
-	elseif caster and UnitIsUnit(caster, unit) then
+	elseif (caster and UnitIsUnit(caster, unit)) then -- or canApplyAura then
 		-- self-buffs & procs
 		return true
 	elseif canStealOrPurge or LibDispellable:CanDispel(unit, isEnemy, debuffType, spellID) then
