@@ -6,6 +6,12 @@ local Movable = LibStub('LibMovable-1.0')
 -- ================================================
 --  Setup
 -- ================================================
+local function UpdateRaidIcon(self, unit)
+	if unit == self.unit then
+		self.RaidIcon.ForceUpdate(self.RaidIcon)
+	end
+end
+
 local function Initialize()
 	if not oUF_ckaotikDB then oUF_ckaotikDB = {} end
 	ns.db = oUF_ckaotikDB
@@ -81,7 +87,8 @@ local function Initialize()
 			      unitFrame:SetPoint(select(2, unpack(info)))
 
 			if unit:find('^boss%d+$') then
-				unitFrame:RegisterEvent("UNIT_TARGETABLE_CHANGED", unitFrame.RaidIcon.ForceUpdate)
+				-- update raid icons when bosses change
+				unitFrame:RegisterEvent("UNIT_TARGETABLE_CHANGED", UpdateRaidIcon)
 			end
 
 			if not ns.db.position[unit] then ns.db.position[unit] = {} end
