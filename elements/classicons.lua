@@ -103,7 +103,10 @@ local function PostUpdate(element, cur, max, hasMaxChanged)
 	if unitClass == 'PRIEST' and GetSpecialization() ~= SPEC_PRIEST_SHADOW then
 		max = 0
 	elseif unitClass == 'WARLOCK' then
-		print('power update', cur, max, hasMaxChanged)
+		if not element:IsEventRegistered("UNIT_DISPLAYPOWER") then
+			element:Hide()
+			return
+		end
 	end
 
 	for index = 1, MAX_CLASS_ICONS do

@@ -7,16 +7,16 @@ local NO_BUFFS_HEIGHT = -4 -- offsets debuff margin 0.000000001
 
 local function OnEnter(self)
 	local bigSize = (self:GetParent().size or 16) * 2
-	self:SetSize(bigSize, bigSize)
 	self:SetFrameStrata('HIGH')
+	self:SetSize(bigSize, bigSize)
 	if LibMasque then
 		LibMasque:Group(addonName, 'Auras'):ReSkin()
 	end
 end
 local function OnLeave(self)
 	local size = self:GetParent().size or 16
-	self:SetSize(size, size)
 	self:SetFrameStrata('MEDIUM')
+	self:SetSize(size, size)
 	if LibMasque then
 		LibMasque:Group(addonName, 'Auras'):ReSkin()
 	end
@@ -45,9 +45,9 @@ local function PostCreateIcon(element, icon)
 end
 
 local function PostUpdateIcon(element, unit, button, index, offset)
-	local _, _, _, _, debuffType, _, _, caster, canStealOrPurge, shouldConsolidate, spellID, _, isBossDebuff, isCastByPlayer = UnitAura(unit, index)
+	-- local name, rank, texture, count, debuffType, duration, timeLeft, caster, canStealOrPurge, shouldConsolidate, spellID, canApplyAura, isBossDebuff, isCastByPlayer = UnitAura(unit, index, element.filter)
 
-	if (caster and UnitIsUnit(caster, 'player')) or isBossDebuff or canStealOrPurge then
+	if button.owner == 'player' or button.isPlayer then
 		button.icon:SetDesaturated(false)
 	else
 		button.icon:SetDesaturated(true)
