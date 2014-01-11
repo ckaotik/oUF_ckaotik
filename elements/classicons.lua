@@ -100,12 +100,12 @@ end
 
 local lastNumPoints = 0
 local function PostUpdate(element, cur, max, hasMaxChanged)
-	if unitClass == 'PRIEST' and GetSpecialization() ~= SPEC_PRIEST_SHADOW then
-		max = 0
-	elseif unitClass == 'WARLOCK' then
-		if not element:IsEventRegistered("UNIT_DISPLAYPOWER") then
+	if hasMaxChanged then
+		if max == 0 then
 			element:Hide()
 			return
+		else
+			element:Show()
 		end
 	end
 
