@@ -1,8 +1,7 @@
 local addonName, ns, _ = ...
-
 -- GLOBALS: _G, type, pairs, wipe
 
-local SharedMedia = LibStub("LibSharedMedia-3.0")
+local SharedMedia = LibStub("LibSharedMedia-3.0", true)
 local AceConfig = LibStub("AceConfig-3.0")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 if not AceConfig or not AceConfigDialog then return end
@@ -17,7 +16,6 @@ local function GetSetting(info)
 end
 
 local function SetSetting(info, value)
-	-- FOO = info; SlashCmdList['SPEW']('FOO')
 	local db = _G[ info[1] ]
 	local data = db
 	for i = 2, #info - 1 do
@@ -64,7 +62,7 @@ local function Widget(key, option)
 			min = 5,
 			max = 24,
 		}
-	elseif key == 'font' then
+	elseif key == 'font' and SharedMedia then
 		widget = {
 			type = 'select',
 			dialogControl = 'LSM30_Font',
@@ -104,6 +102,7 @@ local function Widget(key, option)
 end
 
 local function ParseOption(key, option)
+	if type(key) ~= 'string' then return end
 	local widget = Widget(key, option)
 	if widget then
 		widget.name = widget.name or key
@@ -138,7 +137,6 @@ local function ParseOption(key, option)
 	end
 end
 
--- oUF_ckaotik.args.oUF_ckaotikDB.args.position.type: expected a string, got a nil
 local optionsTable = {
 	type = 'group',
 	args = {
@@ -158,7 +156,11 @@ local function GenerateOptions()
 		wipe(optionsTable.args[namespace].args)
 		for key, value in pairs(_G[namespace]) do
 			optionsTable.args[namespace].args[key] = ParseOption(key, value)
-			optionsTable.args[namespace].args[key].inline = false
+			local parsedOption = ParseOption(key, value)
+			if parsedOption and parsedOption.type and parsedOption.type == 'group' then
+				parsedOption.inline = false
+			end
+			optionsTable.args[namespace].args[key] = parsedOption
 		end
 	end
 	return optionsTable

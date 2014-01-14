@@ -1,7 +1,13 @@
 local addonName, ns, _ = ...
 
--- GLOBALS: oUF_ckaotikDB
+-- GLOBALS: _G, oUF_ckaotikDB, GameTooltip, MAX_BOSS_FRAMES, oUF
+-- GLOBALS: pairs, type, gsub
+
 local Movable = LibStub('LibMovable-1.0')
+local oUF = ns.oUF or oUF
+assert(oUF, "<name> was unable to locate oUF install.")
+
+-- TODO: Warlock bars, castbar
 
 -- ================================================
 --  Setup
@@ -196,18 +202,7 @@ end
 
 if true then return end
 
-
-local addonName, oUF_Hank, _ = ...
-local cfg = oUF_Hank_config
-
--- GLOBALS: _G, oUFHankDB, oUF, MIRRORTIMER_NUMTIMERS, SPELL_POWER_HOLY_POWER, MAX_TOTEMS, MAX_COMBO_POINTS, DebuffTypeColor
--- GLOBALS: UnitIsUnit, GetTime, AnimateTexCoords, GetEclipseDirection, MirrorTimerColors, GetSpecialization, UnitHasVehicleUI, UnitHealth, UnitHealthMax, UnitPower, UnitIsDead, UnitIsGhost, UnitIsConnected, UnitAffectingCombat, GetLootMethod, UnitIsGroupLeader, UnitIsPVPFreeForAll, UnitIsPVP, UnitInRaid, IsResting, UnitAura, UnitCanAttack, UnitIsGroupAssistant, GetRuneCooldown, UnitClass, CancelUnitBuff, CreateFrame, IsAddOnLoaded, UnitFrame_OnEnter, UnitFrame_OnLeave
-local upper, strlen, strsub, gmatch, match = string.upper, string.len, string.sub, string.gmatch, string.match
-local unpack, pairs, ipairs, select, tinsert = unpack, pairs, ipairs, select, table.insert
-local ceil, floor = math.ceil, math.floor
-
-local LibMasque = LibStub("Masque", true)
-
+--[[
 -- Functions -------------------------------------
 -- Party frames be gone!
 oUF_Hank.HideParty = function()
@@ -732,3 +727,4 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 		self:SetSize(250, 50)
 	end
 end
+--]]
