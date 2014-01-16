@@ -179,6 +179,7 @@ function ns.SharedStyle(self, unit, isSingle)
 
 	if isBoss then
 		raidIcon:SetSize(24, 24)
+		raidIcon:SetParent(self.Health.digits[1])
 		raidIcon:SetPoint('BOTTOMRIGHT', self.Health, 4, -4)
 	else
 		raidIcon:SetSize(40, 40)
