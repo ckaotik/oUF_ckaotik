@@ -92,11 +92,6 @@ local function Initialize()
 			local unitFrame = self:Spawn(unit)
 			      unitFrame:SetPoint(select(2, unpack(info)))
 
-			if unit:find('^boss%d+$') then
-				-- update raid icons when bosses change
-				unitFrame:RegisterEvent("UNIT_TARGETABLE_CHANGED", UpdateRaidIcon)
-			end
-
 			if not ns.db.position[unit] then ns.db.position[unit] = {} end
 			Movable.RegisterMovable(addonName, unitFrame, ns.db.position[unit])
 		end
