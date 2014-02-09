@@ -44,6 +44,10 @@ local function PlayerStyle(self, unit)
 		self:Tag(cptarget, '[› >ckaotik:cptarget]')
 
 		bottomOffset = self.CPoints:GetHeight() + 2 + cptarget:GetHeight()
+	elseif class == 'MONK' then
+		self.Stagger = CreateFrame('StatusBar', nil, self)
+		self.Stagger:SetSize(120, 16)
+		self.Stagger:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT')
 	else
 		--
 	end

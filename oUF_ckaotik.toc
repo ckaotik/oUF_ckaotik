@@ -25,8 +25,8 @@ elements\health.lua
 elements\power.lua
 elements\runebar.lua
 elements\totems.lua
-elements\shared.lua
 
 tags.lua
+shared.lua
 core.lua
 options.lua
