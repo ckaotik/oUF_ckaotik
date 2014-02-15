@@ -78,8 +78,13 @@ local function CustomFilter(element, unit, icon, ...)
 	local isEnemy = UnitIsEnemy(unit, 'player')
 
 	-- blizzard visibility settings
-	local hasCustom, alwaysShowMine, showForMySpec = SpellGetVisibilityInfo(spellID, "ENEMY_TARGET")
+	local hasCustom, alwaysShowMine, showForMySpec = SpellGetVisibilityInfo(spellID,
+		(isEnemy and "ENEMY_TARGET") or (InCombatLockdown() and "RAID_INCOMBAT") or "RAID_OUTOFCOMBAT")
 	if hasCustom and (showForMySpec or (alwaysShowMine and isMine)) then
+		return true
+	end
+
+	if isEnemy and not icon.isDebuff then
 		return true
 	end
 
@@ -89,7 +94,7 @@ local function CustomFilter(element, unit, icon, ...)
 		return true
 	elseif isBossDebuff and not isCastByPlayer then
 		return true
-	elseif (caster and UnitIsUnit(caster, unit)) then -- or canApplyAura then
+	elseif (caster and UnitIsUnit(caster, unit)) then
 		-- self-buffs & procs
 		return true
 	elseif canStealOrPurge or LibDispellable:CanDispel(unit, isEnemy, debuffType, spellID) then
