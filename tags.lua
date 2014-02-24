@@ -102,7 +102,12 @@ end
 oUF.Tags.Events['ckaotik:unitcolor'] = 'UNIT_REACTION UNIT_FACTION'
 oUF.Tags.Methods['ckaotik:unitcolor'] = function(unit)
 	local color
-	if not UnitPlayerControlled(unit) and UnitIsTapped(unit)
+	if UnitIsPlayer(unit) then
+		-- or (health.colorClassNPC and not UnitIsPlayer(unit))
+		-- or (health.colorClassPet and UnitPlayerControlled(unit) and not UnitIsPlayer(unit)) then
+		local _, class = UnitClass(unit)
+		color = _COLORS.class[class]
+	elseif not UnitPlayerControlled(unit) and UnitIsTapped(unit)
 		and not UnitIsTappedByPlayer(unit)
 		and not UnitIsTappedByAllThreatList(unit) then
 		color = _COLORS.tapped
@@ -110,12 +115,7 @@ oUF.Tags.Methods['ckaotik:unitcolor'] = function(unit)
 		color = _COLORS.disconnected
 	elseif UnitFactionGroup(unit) and not UnitIsPVP('player') and UnitIsPVP(unit) and UnitIsEnemy(unit, 'player') then
         color = _COLORS.reaction[1] -- hostile
-    elseif UnitIsPlayer(unit) then
-		-- or (health.colorClassNPC and not UnitIsPlayer(unit))
-		-- or (health.colorClassPet and UnitPlayerControlled(unit) and not UnitIsPlayer(unit)) then
-		local _, class = UnitClass(unit)
-		color = _COLORS.class[class]
-	elseif UnitReaction(unit, 'player') then
+    elseif UnitReaction(unit, 'player') then
 		color = _COLORS.reaction[UnitReaction(unit, 'player')]
 	else
 		color = _COLORS.health
