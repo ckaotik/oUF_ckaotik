@@ -204,11 +204,38 @@ oUF.Tags.Methods["ckaotik:threat"] = function(unit)
 			otherThreat = playerThreat
 		end
 
-		-- Mrtank > Stupidmage @99%
-		return string.format('%1$s|r › %2$s @%3$s%4$d%%|r', _TAGS['ckaotik:youname'](tankUnit),
-			_TAGS['ckaotik:youname'](otherUnit), _TAGS['threatcolor']('player'), otherThreat)
+		return string.format('%2$s @%3$s%4$d%%|r', '', _TAGS['ckaotik:youname'](otherUnit), _TAGS['threatcolor']('player'), otherThreat)
+
+		-- Mrtank > Aggromage @99%
+		-- return string.format('%1$s|r › %2$s @%3$s%4$d%%|r', _TAGS['ckaotik:youname'](tankUnit),
+		--	_TAGS['ckaotik:youname'](otherUnit), _TAGS['threatcolor']('player'), otherThreat)
 	end
 end
+
+oUF.Tags.Events['ckaotik:altpower']  = 'UNIT_POWER_BAR_SHOW UNIT_POWER_BAR_HIDE UNIT_POWER UNIT_MAXPOWER'
+oUF.Tags.Methods['ckaotik:altpower'] = function(unit)
+	local barType, minPower, startInset, endInset, smooth, hideFromOthers, showOnRaid, opaqueSpark, opaqueFlash, powerName, powerTooltip = UnitAlternatePowerInfo(unit)
+	if not barType then return end
+
+	local current = UnitPower(unit, _G.ALTERNATE_POWER_INDEX)
+	local max  = UnitPowerMax(unit, _G.ALTERNATE_POWER_INDEX)
+
+	local text = AbbreviateLargeNumbers(max)
+	if max == 0 then
+		return
+	elseif current == max then
+		text = AbbreviateLargeNumbers(max)
+	elseif current ~= max then
+		text = string.format('%s/%s', AbbreviateLargeNumbers(current), text)
+	end
+
+	local texture, altR, altG, altB, altA = UnitAlternatePowerTextureInfo(unit, 2) -- textureIndex: 2
+	local colorTable = nil -- _COLORS.power[powerToken]
+	return (colorTable and Hex(colorTable)
+		or altR and RGBToColorCode(altR, altG, altB, altA)
+		or '') .. text .. '|r'
+end
+
 
 -- Blizzard bug: boss frames don't update on UNIT_HEALTH but only UNIT_HEALTH_FREQUENT
 oUF.Tags.Events['perhp:boss']  = oUF.Tags.Events['perhp'] .. ' UNIT_HEALTH_FREQUENT UNIT_TARGETABLE_CHANGED INSTANCE_ENCOUNTER_ENGAGE_UNIT'

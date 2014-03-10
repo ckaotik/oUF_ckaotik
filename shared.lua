@@ -150,9 +150,9 @@ function ns.SharedStyle(self, unit, isSingle)
 	if unit == 'player' then
 		self:Tag(powerThreat, '[ckaotik:power< · ][ckaotik:health]')
 	elseif isBoss then
-		self:Tag(powerThreat, '[ckaotik:threat< · ][ckaotik:power< · ][perhp:boss]%')
+		self:Tag(powerThreat, '[ckaotik:threat< · ][ckaotik:altpower< · ][ckaotik:power< · ][perhp:boss]%')
 	else
-		self:Tag(powerThreat, '[ckaotik:health][ · >ckaotik:power][ · >ckaotik:threat]')
+		self:Tag(powerThreat, '[ckaotik:health][ · >ckaotik:power][ · >ckaotik:altpower][ · >ckaotik:threat]')
 	end
 
 	-- unit name
