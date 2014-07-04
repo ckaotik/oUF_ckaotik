@@ -48,8 +48,14 @@ local function PlayerStyle(self, unit)
 		self.Stagger = CreateFrame('StatusBar', nil, self)
 		self.Stagger:SetSize(120, 16)
 		self.Stagger:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT')
-	else
-		--
+	elseif class == 'WARLOCK' then
+		-- TODO: until we re-do our own, let's use Blizzard's display
+		-- Soul Shards / Burning Embers / Demonic Fury (reuse Blizzard's)
+		local extra = _G['WarlockPowerFrame']
+		extra:SetScale(0.6)
+		extra:SetParent(self)
+		extra:ClearAllPoints()
+		extra:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT', -16, 2)
 	end
 
 	if class == 'WARLOCK' or class == 'PRIEST' or class == 'MONK' or class == 'PALADIN' then
@@ -204,6 +210,19 @@ function ns.SharedStyle(self, unit, isSingle)
 		self.Debuffs = ns.Auras(self, unit, true)
 		self.Debuffs:SetPoint('TOPLEFT', self.Buffs, 'BOTTOMLEFT', 0, -4)
 		self.Debuffs.showDebuffType = true
+	elseif unit:find('^boss') then
+		local auras = ns.Auras(self, unit)
+		      auras.CustomFilter = nil
+		      auras.initialAnchor = 'TOPRIGHT'
+		      auras['growth-x']   = 'LEFT'
+		      auras['growth-y']   = 'DOWN'
+		self.Auras = auras
+		self.Auras.gap = 4
+		self.Auras.showType = true
+		self.Auras.showStealableBuffs = true
+		self.Auras.filter = 'RAID' -- see also ,buffFilter .debuffFilter
+		-- self.Auras.onlyShowPlayer = true
+		self.Auras:SetPoint('TOPRIGHT', self.name, 'TOPLEFT', -4, 0)
 	end
 
 	-- unit specific styles
