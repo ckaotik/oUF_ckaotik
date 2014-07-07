@@ -28,5 +28,5 @@ elements\totems.lua
 
 tags.lua
 shared.lua
-core.lua
+oUF_ckaotik.lua
 options.lua
