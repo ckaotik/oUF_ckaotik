@@ -33,7 +33,7 @@ local config = {
 		size = {8, 8},
 		padding = 4,
 		glowPadding = 6,
-		showEmpty = nil,
+		showEmpty = false,
 	}
 }
 local data = config[unitClass] or config.default
