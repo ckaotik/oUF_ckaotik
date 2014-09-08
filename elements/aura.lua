@@ -75,7 +75,7 @@ local function CustomFilter(element, unit, icon, ...)
 	end
 
 	local isMine = caster == 'player' or caster == 'pet' or caster == 'vehicle'
-	local isEnemy = UnitIsEnemy(unit, 'player')
+	local isEnemy = not UnitCanAssist(unit, 'player')
 
 	-- blizzard visibility settings
 	local hasCustom, alwaysShowMine, showForMySpec = SpellGetVisibilityInfo(spellID,
@@ -106,6 +106,19 @@ local function CustomFilter(element, unit, icon, ...)
 	return false
 end
 
+local function CustomBossFilter(element, unit, icon, ...)
+	local name, rank, texture, count, debuffType, duration, timeLeft, caster, canStealOrPurge, shouldConsolidate, spellID, canApplyAura, isBossDebuff, isCastByPlayer = ... -- UnitAura(unit, _index)
+
+	local isMine = caster == 'player' or caster == 'pet' or caster == 'vehicle'
+	local hasCustom, alwaysShowMine, showForMySpec = SpellGetVisibilityInfo(spellID, 'ENEMY_TARGET')
+	if hasCustom then
+		return showForMySpec or (alwaysShowMine and isMine)
+	else
+		return isMine or isBossDebuff
+	end
+	return false
+end
+
 function ns.Auras(self, unit, isDebuffs)
 	local size, spacing = 20, 2
 	local auras = CreateFrame('Frame', nil, self)
@@ -116,7 +129,7 @@ function ns.Auras(self, unit, isDebuffs)
 	      auras['growth-x']   = 'RIGHT'
 	      auras['growth-y']   = 'DOWN'
 
-	auras.CustomFilter = CustomFilter
+	auras.CustomFilter   = unit:find('^boss') and CustomBossFilter or CustomFilter
 	auras.PostCreateIcon = PostCreateIcon
 	auras.PostUpdateIcon = PostUpdateIcon
 

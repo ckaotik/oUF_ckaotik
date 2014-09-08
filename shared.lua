@@ -210,18 +210,16 @@ function ns.SharedStyle(self, unit, isSingle)
 		self.Debuffs = ns.Auras(self, unit, true)
 		self.Debuffs:SetPoint('TOPLEFT', self.Buffs, 'BOTTOMLEFT', 0, -4)
 		self.Debuffs.showDebuffType = true
-	elseif unit:find('^boss') then
+	elseif isBoss then
 		local auras = ns.Auras(self, unit)
-		      auras.CustomFilter = nil
 		      auras.initialAnchor = 'TOPRIGHT'
 		      auras['growth-x']   = 'LEFT'
 		      auras['growth-y']   = 'DOWN'
 		self.Auras = auras
-		self.Auras.gap = 4
+		self.Auras.gap = false -- 4
 		self.Auras.showType = true
 		self.Auras.showStealableBuffs = true
-		self.Auras.filter = 'RAID' -- see also ,buffFilter .debuffFilter
-		-- self.Auras.onlyShowPlayer = true
+		self.Auras.PostUpdate = nil
 		self.Auras:SetPoint('TOPRIGHT', self.name, 'TOPLEFT', -4, 0)
 	end
 
