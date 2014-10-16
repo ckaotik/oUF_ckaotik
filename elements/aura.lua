@@ -28,7 +28,6 @@ local function OnClick(self, btn, up)
 end
 
 local function PostCreateIcon(element, icon)
-	icon.cd:SetReverse(true)
 	if LibMasque then
 		icon:SetSize(element.size or 16, element.size or 16)
 		LibMasque:Group(addonName, 'Auras'):AddButton(icon, {
@@ -38,6 +37,10 @@ local function PostCreateIcon(element, icon)
 			Border = icon.overlay,
 		})
 	end
+
+	local point, relativeTo, relativePoint, xOffset, yOffset = icon.count:GetPoint()
+	icon.count:SetPoint(point, relativeTo, relativePoint, 0, yOffset)
+	icon.cd:SetReverse(true)
 
 	icon:HookScript('OnEnter', OnEnter)
 	icon:HookScript('OnLeave', OnLeave)
@@ -58,7 +61,7 @@ local function PostUpdateBuffs(element, unit)
 	local numBuffs = element.visibleBuffs
 	if numBuffs and numBuffs > 0 then
 		local lastBuff = element[numBuffs]
-		element:SetHeight(math.abs(lastBuff:GetBottom() - element:GetTop()))
+		element:SetHeight(math.abs((lastBuff:GetBottom() or element.size) - (element:GetTop() or 0)))
 	else
 		element:SetHeight(NO_BUFFS_HEIGHT)
 	end
