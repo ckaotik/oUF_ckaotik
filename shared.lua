@@ -30,10 +30,15 @@ local function PlayerStyle(self, unit)
 		self.Runes:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT')
 		bottomOffset = self.Runes:GetHeight()
 	elseif class == 'DRUID' then
-		self.EclipseBar = ns.EclipseBar(self, unit)
+		--[[ self.EclipseBar = ns.EclipseBar(self, unit)
 		self.EclipseBar:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT')
 		ApplyFontSettings(self.EclipseBar.counter, ns.db.comboTarget) -- TODO
-		bottomOffset = self.EclipseBar:GetHeight()
+		bottomOffset = self.EclipseBar:GetHeight() --]]
+		local extra = _G['EclipseBarFrame']
+		extra:SetScale(0.7)
+		extra:SetParent(self)
+		extra:ClearAllPoints()
+		extra:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT', 2, 6)
 	elseif class == 'ROGUE' then
 		self.CPoints = ns.CPoints(self, unit)
 		self.CPoints:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT')
