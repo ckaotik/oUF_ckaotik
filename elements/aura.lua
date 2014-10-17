@@ -3,7 +3,7 @@ local addonName, ns, _ = ...
 local LibMasque = LibStub('Masque', true)
 local LibDispellable = LibStub('LibDispellable-1.0')
 
-local NO_BUFFS_HEIGHT = -4 -- offsets debuff margin 0.000000001
+local NO_BUFFS_HEIGHT = 0.000000001
 
 local function OnEnter(self)
 	local bigSize = (self:GetParent().size or 16) * 2
