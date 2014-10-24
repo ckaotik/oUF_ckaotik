@@ -111,7 +111,8 @@ local function PostUpdate(element, cur, max, hasMaxChanged)
 
 	for index = 1, MAX_CLASS_ICONS do
 		local classIcon = element[index]
-		if index > max then
+		-- print(element:GetName(), cur, max, hasMaxChanged)
+		if index > (max or 0) then
 			classIcon.border:Hide()
 			classIcon:Hide()
 		else
