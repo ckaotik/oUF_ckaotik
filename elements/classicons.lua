@@ -109,10 +109,10 @@ local function PostUpdate(element, cur, max, hasMaxChanged)
 		end
 	end
 
+	max = max or 0 -- why would this even be nil?
 	for index = 1, MAX_CLASS_ICONS do
 		local classIcon = element[index]
-		-- print(element:GetName(), cur, max, hasMaxChanged)
-		if index > (max or 0) then
+		if index > max then
 			classIcon.border:Hide()
 			classIcon:Hide()
 		else
