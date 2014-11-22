@@ -25,6 +25,7 @@ local config = {
 	-- 	glowPadding = 6,
 	-- 	showEmpty = nil,
 	-- },
+	-- TODO: Mage: rune of power
 	default = {
 		-- inverted y-coords to allow filling the texture bottom->top. texture matches the crazyness
 		fill = {'Interface\\AddOns\\'..addonName..'\\media\\combo', { 0/64,  8/64, 8/16,  0/16}},
@@ -107,6 +108,8 @@ function ns.Totems(self, unit)
 	local sharedR, sharedG, sharedB
 	if unitClass == 'DRUID' then
 		sharedR, sharedG, sharedB = unpack(self.colors.power.ECLIPSE.SOLAR)
+	elseif unitClass == 'MAGE' then
+		sharedR, sharedG, sharedB = unpack(self.colors.power.ECLIPSE.LUNAR)
 	elseif unitClass == 'DEATHKNIGHT' then
 		sharedR, sharedG, sharedB = unpack(self.colors.runes[4])
 	elseif unitClass == 'PALADIN' then
