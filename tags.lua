@@ -72,6 +72,7 @@ end
 
 oUF.Tags.Events['ckaotik:power'] = strjoin(' ', oUF.Tags.Events['curpp'], oUF.Tags.Events['maxpp'])
 oUF.Tags.Methods['ckaotik:power'] = function(unit)
+	if UnitIsGhost(unit) or not UnitIsConnected(unit) then return end
 	local current, max = UnitPower(unit), UnitPowerMax(unit)
 	local text = AbbreviateLargeNumbers(max)
 	if max == 0 then
