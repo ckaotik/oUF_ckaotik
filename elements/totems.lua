@@ -123,7 +123,7 @@ function ns.Totems(self, unit)
 		local r, g, b = sharedR or altR, sharedG or altG, sharedB or altB
 
 		local texture = data.fill[1]
-		local totem = CreateFrame('StatusBar', nil, totems, nil, index)
+		local totem = CreateFrame('StatusBar', addonName..'Totem'..index, totems, nil, index)
 		      totem:SetStatusBarTexture(texture)
 		      totem:SetStatusBarColor(r, g, b)
 		      totem:SetRotatesTexture(false)
