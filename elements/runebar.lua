@@ -70,7 +70,7 @@ function ns.RuneBar(self, unit)
 	runes.PostUpdateRune = PostUpdateRune
 
 	for index = 1, MAX_RUNES do
-		local rune = CreateFrame('StatusBar', nil, runes, nil, index)
+		local rune = CreateFrame('StatusBar', addonName..'Rune'..index, runes, nil, index)
 		      rune:SetStatusBarTexture('Interface\\AddOns\\'..addonName..'\\media\\combo')
 		      rune:SetRotatesTexture(false)
 		      rune:SetOrientation('VERTICAL')
