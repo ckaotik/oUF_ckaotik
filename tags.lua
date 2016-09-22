@@ -74,6 +74,14 @@ oUF.Tags.Events['ckaotik:power'] = strjoin(' ', oUF.Tags.Events['curpp'], oUF.Ta
 oUF.Tags.Methods['ckaotik:power'] = function(unit)
 	if UnitIsGhost(unit) or not UnitIsConnected(unit) then return end
 	local current, max = UnitPower(unit), UnitPowerMax(unit)
+	local powerType, powerToken, altR, altG, altB = UnitPowerType(unit)
+	if powerType ~= ADDITIONAL_POWER_BAR_INDEX then
+		-- Display mana instead of special power.
+		powerToken = _G.ADDITIONAL_POWER_BAR_NAME
+		current = UnitPower(unit, ADDITIONAL_POWER_BAR_INDEX)
+		max = UnitPowerMax(unit, ADDITIONAL_POWER_BAR_INDEX)
+	end
+
 	local text = AbbreviateLargeNumbers(max)
 	if max == 0 then
 		return
@@ -83,7 +91,6 @@ oUF.Tags.Methods['ckaotik:power'] = function(unit)
 		text = string.format('%s/%s', AbbreviateLargeNumbers(current), text)
 	end
 
-	local _, powerToken, altR, altG, altB = UnitPowerType(unit)
 	local colorTable = _COLORS.power[powerToken]
 	return (colorTable and Hex(colorTable)
 		or altR and RGBToColorCode(altR, altG, altB)
