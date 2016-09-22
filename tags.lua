@@ -115,9 +115,7 @@ oUF.Tags.Methods['ckaotik:unitcolor'] = function(unit)
 		-- or (health.colorClassPet and UnitPlayerControlled(unit) and not UnitIsPlayer(unit)) then
 		local _, class = UnitClass(unit)
 		color = _COLORS.class[class]
-	elseif not UnitPlayerControlled(unit) and UnitIsTapped(unit)
-		and not UnitIsTappedByPlayer(unit)
-		and not UnitIsTappedByAllThreatList(unit) then
+	elseif not UnitPlayerControlled(unit) and UnitIsTapDenied(unit) then
 		color = _COLORS.tapped
 	elseif not UnitIsConnected(unit) then
 		color = _COLORS.disconnected
