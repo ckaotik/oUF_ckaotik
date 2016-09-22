@@ -26,44 +26,21 @@ local function PlayerStyle(self, unit)
 	-- class specific things
 	local bottomOffset = 0
 	if class == 'DEATHKNIGHT' then
-		self.Runes = ns.RuneBar(self, unit)
+		--[[ self.Runes = ns.RuneBar(self, unit)
 		self.Runes:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT')
-		bottomOffset = self.Runes:GetHeight()
-	elseif class == 'DRUID' then
-		--[[ self.EclipseBar = ns.EclipseBar(self, unit)
-		self.EclipseBar:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT')
-		ApplyFontSettings(self.EclipseBar.counter, ns.db.comboTarget) -- TODO
-		bottomOffset = self.EclipseBar:GetHeight() --]]
-		local extra = _G['EclipseBarFrame']
+		bottomOffset = self.Runes:GetHeight() --]]
+		local extra = _G['RuneFrame']
 		extra:SetScale(0.7)
 		extra:SetParent(self)
 		extra:ClearAllPoints()
-		extra:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT', 2, 6)
-	elseif class == 'ROGUE' then
-		self.CPoints = ns.CPoints(self, unit)
-		self.CPoints:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT')
-
-		local cptarget = self:CreateFontString(nil, nil, 'GameFontNormal')
-		      cptarget:SetPoint('TOPRIGHT', self.CPoints, 'BOTTOMRIGHT', 0, -2)
-		ApplyFontSettings(cptarget, ns.db.comboTarget)
-		self:Tag(cptarget, '[› >ckaotik:cptarget]')
-
-		bottomOffset = self.CPoints:GetHeight() + 2 + cptarget:GetHeight()
+		extra:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT', 0, 0)
 	elseif class == 'MONK' then
 		self.Stagger = CreateFrame('StatusBar', nil, self)
 		self.Stagger:SetSize(120, 16)
 		self.Stagger:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT')
-	elseif class == 'WARLOCK' then
-		-- TODO: until we re-do our own, let's use Blizzard's display
-		-- Soul Shards / Burning Embers / Demonic Fury (reuse Blizzard's)
-		local extra = _G['WarlockPowerFrame']
-		extra:SetScale(0.6)
-		extra:SetParent(self)
-		extra:ClearAllPoints()
-		extra:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT', -16, 2)
 	end
 
-	if class == 'WARLOCK' or class == 'PRIEST' or class == 'MONK' or class == 'PALADIN' then
+	if class == 'ROGUE' or class == 'WARLOCK' or class == 'MONK' or class == 'PALADIN' then
 		self.ClassIcons = ns.ClassIcons(self, unit)
 		self.ClassIcons:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT')
 		bottomOffset = (bottomOffset or 0) + self.ClassIcons:GetHeight()
