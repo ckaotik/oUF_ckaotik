@@ -3,7 +3,7 @@ local addonName, ns, _ = ...
 -- GLOBALS: _G, oUF_ckaotikDB, GameTooltip, MAX_BOSS_FRAMES, oUF
 -- GLOBALS: pairs, type, gsub
 
-local Movable = LibStub('LibMovable-1.0')
+local Movable = LibStub('LibMovable-1.0', true)
 local oUF = ns.oUF or oUF
 assert(oUF, "<name> was unable to locate oUF install.")
 
@@ -62,6 +62,7 @@ local function Initialize()
 
 	_G.SLASH_OUFCKAOTIK = "/oufckaotik"
 	SlashCmdList.OUFCKAOTIK = function()
+		if not Movable then return end
 		if Movable.IsLocked(addonName) then
 			Movable.Unlock(addonName)
 		else
@@ -74,17 +75,17 @@ local function Initialize()
 		self:SetActiveStyle('ckaotik')
 
 		local unitFrames = {
-			{ 'player',             'RIGHT', 'UIParent', 'CENTER', -200, -300 },
+			{ 'player',             'RIGHT', 'UIParent', 'CENTER', -290, -156 },
 			{ 'pet',                'BOTTOMRIGHT', 'oUF_ckaotikPlayer', 'TOPRIGHT' },
-			{ 'target',             'LEFT', 'UIParent', 'CENTER',  200, -300 },
+			{ 'target',             'LEFT', 'UIParent', 'CENTER',  290, -156 },
 			{ 'targettarget',       'BOTTOMLEFT', 'oUF_ckaotikTarget', 'TOPLEFT' },
 			{ 'targettargettarget', 'BOTTOMLEFT', 'oUF_ckaotikTargetTarget', 'TOPLEFT' },
-			{ 'focus',              'CENTER', 'UIParent', 'CENTER', 0, -200 },
+			{ 'focus',              'BOTTOM', 'UIParent', 'BOTTOM', 0, 360 },
 			{ 'focustarget',        'BOTTOMLEFT',  'oUF_ckaotikFocus', 'TOPLEFT', 0, 5 },
 			{ 'boss1',              'RIGHT',  'UIParent', -70, 0 },
 		}
 		for i = 2, MAX_BOSS_FRAMES do
-			table.insert(unitFrames, { 'boss'..i,  'TOPRIGHT', 'oUF_ckaotikBoss'..(i-1), 'BOTTOMRIGHT', 0, -5 })
+			table.insert(unitFrames, { 'boss'..i,  'TOPRIGHT', 'oUF_ckaotikBoss'..(i-1), 'BOTTOMRIGHT', -80, -5 })
 		end
 
 		for i, info in ipairs(unitFrames) do

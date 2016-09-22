@@ -47,13 +47,13 @@ local function CreateAnimationGlow(frame, index, target)
 
 	-- fast fade-in to 100% alpha
 	local alphaIn = animation:CreateAnimation("Alpha")
-	      alphaIn:SetChange(1)
+	      alphaIn:SetToAlpha(1)
 	      alphaIn:SetSmoothing("OUT")
 	      alphaIn:SetDuration(0.5)
 	      alphaIn:SetOrder(1)
 	-- then, slowly return to 50% alpha
 	local alphaOut = animation:CreateAnimation("Alpha")
-	      alphaOut:SetChange(-0.5)
+	      alphaOut:SetToAlpha(0.5)
 	      alphaOut:SetSmoothing("OUT")
 	      alphaOut:SetDuration(1.5)
 	      alphaOut:SetOrder(2)

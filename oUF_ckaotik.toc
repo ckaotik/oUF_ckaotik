@@ -1,6 +1,6 @@
-## Interface: 50400
+## Interface: 70000
 ## Title: oUF_ckaotik
-## Notes: yet another oUF layout
+## Notes: An oUF layout using numbers instead of bars
 ## Author: ckaotik
 ## Version: @project-version@
 
@@ -19,11 +19,9 @@ libs\LibDispellable-1.0\LibDispellable-1.0.lua
 elements\aura.lua
 elements\castbar.lua
 elements\classicons.lua
-elements\cpoints.lua
-elements\eclipsebar.lua
 elements\health.lua
 elements\power.lua
-elements\runebar.lua
+#elements\runebar.lua
 elements\totems.lua
 
 tags.lua

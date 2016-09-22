@@ -4,6 +4,37 @@ local addonName, ns, _ = ...
 -- http://wow.go-hero.net/framexml/17688/ShardBar.lua
 -- Interface\\PLAYERFRAME\\Warlock-DestructionUI-Green / Interface\\PLAYERFRAME\\Warlock-DestructionUI / Interface\\PLAYERFRAME\\Warlock-DemonologyUI
 
+--[[
+	AlternatePowerBar
+		https://www.townlong-yak.com/framexml/beta/AlternatePowerBar.lua
+	UnitPowerBarAlt
+		https://www.townlong-yak.com/framexml/beta/UnitPowerBarAlt.lua
+	ClassPowerBar
+		https://www.townlong-yak.com/framexml/beta/ClassPowerBar.lua
+	ComboFrame
+		https://www.townlong-yak.com/framexml/beta/ComboFrame.lua
+	ComboFramePlayer
+		https://www.townlong-yak.com/framexml/beta/ComboFramePlayer.lua
+	EclipseBarFrame
+		https://www.townlong-yak.com/framexml/beta/EclipseBarFrame.lua
+	InsanityBar
+		https://www.townlong-yak.com/framexml/beta/InsanityBar.lua
+	MageArcaneChargesBar
+		https://www.townlong-yak.com/framexml/beta/MageArcaneChargesBar.lua
+	PaladinPowerBar
+		https://www.townlong-yak.com/framexml/beta/PaladinPowerBar.lua
+	PriestBar
+		https://www.townlong-yak.com/framexml/beta/PriestBar.lua
+	RuneFrame
+		https://www.townlong-yak.com/framexml/beta/RuneFrame.lua
+	ShardBar
+		https://www.townlong-yak.com/framexml/beta/ShardBar.lua
+	TotemFrame
+		https://www.townlong-yak.com/framexml/beta/TotemFrame.lua
+	DestinyFrame
+		https://www.townlong-yak.com/framexml/beta/DestinyFrame.lua
+--]]
+
 local MAX_CLASS_ICONS = 5
 local config = {
 	['PALADIN'] = {
@@ -13,6 +44,7 @@ local config = {
 		padding = 0,
 		glowPadding = 0,
 		showEmpty = true,
+		power = _G.SPELL_POWER_HOLY_POWER,
 	},
 	['PRIEST'] = {
 		-- inverted y-coords to allow filling the texture bottom->top. texture matches the crazyness
@@ -23,6 +55,7 @@ local config = {
 		padding = 0,
 		glowPadding = 0,
 		showEmpty = true,
+		power = _G.SPELL_POWER_SHADOW_ORBS,
 	},
 	['MONK'] = { -- Interface\\PLAYERFRAME\\MonkUI
 		fill = {'Interface\\PlayerFrame\\MonkLightPower', { 0, 1, 0, 1 }},
@@ -32,7 +65,18 @@ local config = {
 		padding = 0,
 		glowPadding = 0,
 		showEmpty = true,
+		power = _G.SPELL_POWER_CHI,
 	},
+	--[[ ['WARLOCK'] = {
+		fill = {'Interface\\PlayerFrame\\ClassOverlayWarlockShards', { 0, 1, 0, 1 }},
+		bg   = {'Interface\\PlayerFrame\\ClassOverlayWarlockShards', { 0, 1, 0, 1 }},
+		glow = nil,
+		size = {20, 20},
+		padding = 0,
+		glowPadding = 0,
+		showEmpty = true,
+		power = _G.SPELL_POWER_SOUL_SHARDS,
+	}, --]]
 	default = {
 		-- inverted y-coords to allow filling the texture bottom->top. texture matches the crazyness
 		fill = {'Interface\\AddOns\\'..addonName..'\\media\\combo', { 0/64,  8/64, 8/16,  0/16}},
@@ -42,6 +86,7 @@ local config = {
 		padding = 4,
 		glowPadding = 6,
 		showEmpty = nil,
+		power = _G.SPELL_POWER_COMBO_POINTS,
 	}
 }
 
@@ -70,7 +115,7 @@ local function CreateAnimationFlash(frame, index, parent)
 	animator:SetScript('OnShow', function(self) self.animation:Play() end)
 
 	local alphaIn = anim:CreateAnimation('Alpha')
-	      alphaIn:SetChange(0.3)
+	      alphaIn:SetToAlpha(0.3)
 	      alphaIn:SetDuration(0.4)
 	      alphaIn:SetOrder(1)
 	local rotateIn = anim:CreateAnimation('Rotation')
@@ -84,7 +129,7 @@ local function CreateAnimationFlash(frame, index, parent)
 	      scaleIn:SetOrder(1)
 
 	local alphaOut = anim:CreateAnimation('Alpha')
-	      alphaOut:SetChange(-0.5)
+	      alphaOut:SetFromAlpha(-0.5)
 	      alphaOut:SetDuration(0.4)
 	      alphaOut:SetOrder(2)
 	local rotateOut = anim:CreateAnimation('Rotation')
@@ -128,16 +173,17 @@ local function PostUpdate(element, cur, max, hasMaxChanged)
 end
 
 function ns.ClassIcons(self, unit)
+	local maxIcons = math.max(UnitPowerMax('player', data.power) or 0, MAX_CLASS_ICONS)
 	local classIcons = CreateFrame('Frame', nil, self)
-	      classIcons:SetSize(MAX_CLASS_ICONS * (iconWidth + 2*padding), (iconHeight + 2*padding))
+	      classIcons:SetSize(maxIcons * (iconWidth + 2*padding), (iconHeight + 2*padding))
 	classIcons.PostUpdate = PostUpdate
-	-- classIcons.UpdateTexture = UpdateTexture
 
-	for index = 1, MAX_CLASS_ICONS do
+	for index = 1, maxIcons do
 		local cIcon = classIcons:CreateTexture(nil, 'ARTWORK')
 		      cIcon:SetTexture(data.fill[1])
 		      cIcon:SetTexCoord(unpack(data.fill[2]))
 		      cIcon:SetSize(iconWidth, iconHeight)
+
 		--[[
 		local cIcon = CreateFrame('StatusBar', nil, classIcons, nil, index)
 		      cIcon:SetStatusBarTexture('Interface\\AddOns\\'..addonName..'\\media\\combo')
