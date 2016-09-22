@@ -1,47 +1,96 @@
 --[[
-LibMovable-1.0 - Movable frame library
-(c) 2009 Adirelle (adirelle@tagada-team.net)
-All rights reserved.
+LibMovable-1.0 - buff-to-item database.
+(c) 2009-2013 Adirelle (adirelle@gmail.com)
+
+This file is part of LibMovable-1.0.
+
+LibMovable-1.0 is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+LibMovable-1.0 is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with LibMovable-1.0.  If not, see <http://www.gnu.org/licenses/>.
 --]]
 
-local MAJOR, MINOR = 'LibMovable-1.0', 31
-local lib, oldMinor = LibStub:NewLibrary(MAJOR, MINOR)
+local MAJOR, MINOR = 'LibMovable-1.0', 36
+local lib = LibStub:NewLibrary(MAJOR, MINOR)
 if not lib then return end
-oldMinor = oldMinor or 0
 
 -- Localization
-L_MENU_ENABLED = "Enabled"
-L_MENU_CENTER_X = "Center horizontally"
-L_MENU_CENTER_Y = "Center vertically"
-L_MENU_RESET = "Reset to default position"
-L_MENU_HIDE_THIS = "Hide this moving handle"
-L_MENU_HIDE_ALL = "Hide all moving handles"
-L_TIP_CONTROLS = "Controls:"
-L_TIP_DRAG ="Drag: move."
-L_TIP_SHIFT_DRAG = "Shift+drag: move vertically."
-L_TIP_CTRL_DRAG = "Control+drag: move horizontally."
-L_TIP_MOUSEWHEEL = "Mousewheel: change scale."
-L_TIP_RIGHT_CLICK = "Right-click: open menu."
-L_TIP_SHIFT_RIGHT_CLICK ="Shift+right-click: enable/disable."
-L_DISABLED = " (disabled)"
-L_IN_COMBAT_LOCKDOWN = " (locked down in combat)"
+local L = {
+	['Enabled'] = "Enabled",
+	['Center horizontally'] = "Center horizontally",
+	['Center vertically'] = "Center vertically",
+	['Reset to default position'] = "Reset to default position",
+	['Hide this moving handle'] = "Hide this moving handle",
+	['Hide all moving handles'] = "Hide all moving handles",
+	['Controls:'] = "Controls:",
+	['Drag: move.'] ="Drag: move.",
+	['Shift+drag: move vertically.'] = "Shift+drag: move vertically.",
+	['Control+drag: move horizontally.'] = "Control+drag: move horizontally.",
+	['Mousewheel: change scale.'] = "Mousewheel: change scale.",
+	['Right-click: open menu.'] = "Right-click: open menu.",
+	['Shift+right-click: enable/disable.'] ="Shift+right-click: enable/disable.",
+	[' (disabled)'] = " (disabled)",
+	[' (locked down in combat)'] = " (locked down in combat)",
+}
 
-if GetLocale() == "frFR" then
-	L_MENU_ENABLED = "Activé"
-	L_MENU_CENTER_X = "Centrer horizontalement"
-	L_MENU_CENTER_Y = "Centrer verticalement"
-	L_MENU_RESET = "Réinitialiser la position"
-	L_MENU_HIDE_THIS = "Cacher"
-	L_MENU_HIDE_ALL = "Tout cacher"
-	L_TIP_CONTROLS = "Contrôles :"
-	L_TIP_DRAG ="Tirer : déplacer."
-	L_TIP_SHIFT_DRAG = "Tirer en pressant Maj : déplacer verticalement."
-	L_TIP_CTRL_DRAG = "Tirer en pressant Ctrl : déplacer horizontalement."
-	L_TIP_MOUSEWHEEL = "Molette de la souris : changer l'échelle d'affichage."
-	L_TIP_RIGHT_CLICK = "Clic droit : ouvrir le menu."
-	L_TIP_SHIFT_RIGHT_CLICK ="Maj+clic droit: activer/désactiver."
-	L_DISABLED = " (désactivé)"
-	L_IN_COMBAT_LOCKDOWN = " (verrouilé en combat)"
+local locale = GetLocale()
+if locale == "frFR" then
+	L['Enabled'] = "Activé"
+	L['Center horizontally'] = "Centrer horizontalement"
+	L['Center vertically'] = "Centrer verticalement"
+	L['Reset to default position'] = "Réinitialiser la position"
+	L['Hide this moving handle'] = "Cacher"
+	L['Hide all moving handles'] = "Tout cacher"
+	L['Controls:'] = "Contrôles :"
+	L['Drag: move.'] ="Tirer : déplacer."
+	L['Shift+drag: move vertically.'] = "Tirer en pressant Maj : déplacer verticalement."
+	L['Control+drag: move horizontally.'] = "Tirer en pressant Ctrl : déplacer horizontalement."
+	L['Mousewheel: change scale.'] = "Molette de la souris : changer l'échelle d'affichage."
+	L['Right-click: open menu.'] = "Clic droit : ouvrir le menu."
+	L['Shift+right-click: enable/disable.'] ="Maj+clic droit: activer/désactiver."
+	L[' (disabled)'] = " (désactivé)"
+	L[' (locked down in combat)'] = " (verrouilé en combat)"
+elseif locale == "ptBR" then
+
+elseif locale == "deDE" then
+
+elseif locale == "itIT" then
+
+elseif locale == "koKR" then
+
+elseif locale == "esMX" then
+
+elseif locale == "ruRU" then
+
+elseif locale == "zhCN" then
+
+elseif locale == "esES" then
+	L["Center horizontally"] = "Centrado horizontal" -- Needs review
+L["Center vertically"] = "Centrado vertical" -- Needs review
+L["Control+drag: move horizontally."] = "Control+arrastrar: mover horizontalmente." -- Needs review
+L["Controls:"] = "Controles:" -- Needs review
+L[" (disabled)"] = "(deshabilitado)" -- Needs review
+L["Drag: move."] = "Arrastrar: mover." -- Needs review
+L["Enabled"] = "Habilitado" -- Needs review
+L["Hide all moving handles"] = "Ocultar todos los tiradores de movimiento." -- Needs review
+L["Hide this moving handle"] = "Ocultar este tirador de movimiento." -- Needs review
+L[" (locked down in combat)"] = "(bloqueado en combate)" -- Needs review
+L["Mousewheel: change scale."] = "Rueda del ratón: cambiar escala." -- Needs review
+L["Reset to default position"] = "Reiniciar a la posición por defecto." -- Needs review
+L["Right-click: open menu."] = "Clic-derecho: abrir menú." -- Needs review
+L["Shift+drag: move vertically."] = "Mayus+arrastrar: mover verticalmente." -- Needs review
+L["Shift+right-click: enable/disable."] = "Mayus+clic-derecho: habilitar/deshabilitar." -- Needs review
+
+elseif locale == "zhTW" then
+
 end
 
 -- Assets
@@ -294,9 +343,9 @@ function proto.UpdateDisplay(overlay, inCombat)
 	local r, g, b, labelSuffix, alpha = 0, 1, 0, "", 1
 	local connector = overlay.connector
 	if inCombat and overlay.protected then
-		r, g, b, labelSuffix, alpha = 1, 0, 0, L_IN_COMBAT_LOCKDOWN, 0.4
+		r, g, b, labelSuffix, alpha = 1, 0, 0, L[' (locked down in combat)'], 0.4
 	elseif not overlay:IsTargetEnabled() then
-		r, g, b, labelSuffix = 0.5, 0.5, 0.5, L_DISABLED
+		r, g, b, labelSuffix = 0.5, 0.5, 0.5, L[' (disabled)']
 	end
 	local target = overlay.target
 	local scale = overlay:GetEffectiveScale()
@@ -369,11 +418,11 @@ local menuOverlay
 local menu = {
 	{ isTitle = true, notCheckable = true },
 	{ text = false, func = function() menuOverlay:ToggleTarget() end, checked = function() return menuOverlay:IsTargetEnabled() end, isNotRadio = true },
-	{ text = L_MENU_CENTER_X, func = function() menuOverlay:MoveToCenter(true, false) end, notCheckable = true },
-	{ text = L_MENU_CENTER_Y, func = function() menuOverlay:MoveToCenter(false, true) end, notCheckable = true },
-	{	text = L_MENU_RESET, func = function() menuOverlay:ResetLayout() end, notCheckable = true },
-	{ text = L_MENU_HIDE_THIS, func = function() menuOverlay:Hide() end, notCheckable = true },
-	{ text = L_MENU_HIDE_ALL, func = function() lib.Lock() end, notCheckable = true },
+	{ text = L['Center horizontally'], func = function() menuOverlay:MoveToCenter(true, false) end, notCheckable = true },
+	{ text = L['Center vertically'], func = function() menuOverlay:MoveToCenter(false, true) end, notCheckable = true },
+	{	text = L['Reset to default position'], func = function() menuOverlay:ResetLayout() end, notCheckable = true },
+	{ text = L['Hide this moving handle'], func = function() menuOverlay:Hide() end, notCheckable = true },
+	{ text = L['Hide all moving handles'], func = function() lib.Lock() end, notCheckable = true },
 	{ text = CANCEL, notCheckable = true }
 }
 
@@ -381,7 +430,7 @@ function proto.OpenMenu(overlay)
 	lib.menuFrame = lib.menuFrame or CreateFrame("Frame", "LibMovable10MenuDropDown", UIParent, "UIDropDownMenuTemplate")
 	menuOverlay = overlay
 	menu[1].text = menuOverlay.label
-	menu[2].text = menuOverlay:CanDisableTarget() and L_MENU_ENABLED or false
+	menu[2].text = menuOverlay:CanDisableTarget() and L['Enabled'] or false
 	EasyMenu(menu, lib.menuFrame, "cursor", 0, 0, "MENU")
 end
 
@@ -416,14 +465,14 @@ function proto.OnEnter(overlay)
 	GameTooltip_SetDefaultAnchor(GameTooltip, overlay)
 	GameTooltip:ClearLines()
 	GameTooltip:AddLine(overlay.label)
-	GameTooltip:AddLine(L_TIP_CONTROLS, 1, 1, 1)
-	GameTooltip:AddLine(L_TIP_DRAG, 1, 1, 1)
-	GameTooltip:AddLine(L_TIP_SHIFT_DRAG, 1, 1, 1)
-	GameTooltip:AddLine(L_TIP_CTRL_DRAG, 1, 1, 1)
-	GameTooltip:AddLine(L_TIP_MOUSEWHEEL, 1, 1, 1)
-	GameTooltip:AddLine(L_TIP_RIGHT_CLICK, 1, 1, 1)
+	GameTooltip:AddLine(L['Controls:'], 1, 1, 1)
+	GameTooltip:AddLine(L['Drag: move.'], 1, 1, 1)
+	GameTooltip:AddLine(L['Shift+drag: move vertically.'], 1, 1, 1)
+	GameTooltip:AddLine(L['Control+drag: move horizontally.'], 1, 1, 1)
+	GameTooltip:AddLine(L['Mousewheel: change scale.'], 1, 1, 1)
+	GameTooltip:AddLine(L['Right-click: open menu.'], 1, 1, 1)
 	if overlay:CanDisableTarget() then
-		GameTooltip:AddLine(L_TIP_SHIFT_RIGHT_CLICK, 1, 1, 1)
+		GameTooltip:AddLine(L['Shift+right-click: enable/disable.'], 1, 1, 1)
 	end
 	GameTooltip:Show()
 end
@@ -490,6 +539,12 @@ local overlayBackdrop = {
 	insets = { left = 0, right = 0, top = 0, bottom = 0 }
 }
 
+--- Register a frame.
+-- @name :RegisterMovable(target, db, label, anchor)
+-- @param target (frame) The frame that should become movable.
+-- @param db (table/function) The table to save position into, or a callback that returns such table.
+-- @param label (string) The overlay label.
+-- @param anchor (frame) Optional frame to use in place of target for overlay anchor.
 function lib.RegisterMovable(key, target, db, label, anchor)
 	if overlaysToBe[target] or overlays[target] then return end
 
@@ -604,7 +659,10 @@ setmetatable(lib.__iterators, {
 	end,
 })
 
-function lib.IterateOverlays(key)
+--- Return an iterator on frame overlays.
+-- @name :IterateMovableOverlays()
+-- @param A (iter, data, index) triplet suitable for for .. in .. do loops.
+function lib.IterateMovableOverlays(key)
 	if key then
 		return lib.__iterators[key], overlays
 	else
@@ -614,27 +672,34 @@ end
 
 -- (Un)locking related methods
 
-function lib.Lock(key)
-	for target, overlay in lib.IterateOverlays(key) do
+--- Lock all frames.
+-- @name :LockMovables()
+function lib.LockMovables(key)
+	for target, overlay in lib.IterateMovableOverlays(key) do
 		overlay:Hide()
 	end
 end
 
-function lib.Unlock(key)
+--- Unlock all frames.
+-- @name :UnlockMovables()
+function lib.UnlockMovables(key)
 	for target, data in pairs(overlaysToBe) do
 		if (not key or data.key == key) and data.movable then
 			lib.SpawnOverlay(data)
 		end
 	end
-	for target, overlay in lib.IterateOverlays(key) do
+	for target, overlay in lib.IterateMovableOverlays(key) do
 		if overlay.movable then
 			overlay:Show()
 		end
 	end
 end
 
-function lib.IsLocked(key)
-	for target, overlay in lib.IterateOverlays(key) do
+--- Check whether all frames are locked or not.
+-- @name :AreMovablesLocked()
+-- @return (boolean) True if all frame are locked, false if at least one frame is unlocked.
+function lib.AreMovablesLocked(key)
+	for target, overlay in lib.IterateMovableOverlays(key) do
 		if overlay:IsShown() then
 			return false
 		end
@@ -642,28 +707,40 @@ function lib.IsLocked(key)
 	return true
 end
 
-function lib.UpdateLayout(key)
+--- Refresh the layout of all frames.
+-- Force every frames to re-read and to apply theirs settings.
+-- Useful after a profile switch or reset.
+-- @name :UpdateMovableLayout()
+function lib.UpdateMovableLayout(key)
 	for target, data in pairs(overlaysToBe) do
 		if type(data) == "table" and (not key or data.key == key) then
 			proto.ApplyLayout(data)
 		end
 	end
-	for target, overlay in lib.IterateOverlays(key) do
+	for target, overlay in lib.IterateMovableOverlays(key) do
 		overlay:ApplyLayout()
 	end
 end
 
-function lib.ResetLayout(key)
+--- Reset all frames to their default position and scale.
+-- @name :ResetMovableLayout()
+function lib.ResetMovableLayout(key)
 	for target, data in pairs(overlaysToBe) do
 		if type(data) == "table" and (not key or data.key == key) then
 			proto.ResetLayout(data)
 		end
 	end
-	for target, overlay in lib.IterateOverlays(key) do
+	for target, overlay in lib.IterateMovableOverlays(key) do
 		overlay:ResetLayout()
 	end
 end
 
+--- Enable/disable the movable behavior of a frame.
+-- This is used to disable all the overlays frames of a disabled addon.
+-- @name :SetMovable(target)
+-- @param target (frame) The target frame.
+-- @param flag (boolean) True to enable the frame.
+-- @param update (boolean) True to apply the settings (if enabled), or reset the frame to its default position (if disable).
 function lib.SetMovable(key, target, flag, update)
 	local overlay = overlaysToBe[target] or overlays[target]
 	if overlay then
@@ -693,10 +770,22 @@ function lib.SetMovable(key, target, flag, update)
 	end
 end
 
+--- Check whether a given frame can be unlocked.
+-- @name :IsMovable(target)
+-- @param target (frame) The frame to check.
+-- @return (boolean) True if the frame can be unlocked.
 function lib.IsMovable(key, target)
 	local overlay = overlaysToBe[target] or overlays[target]
 	return overlay and overlay.movable
 end
+
+-- Backward compatibility
+lib.Lock = lib.LockMovables
+lib.Unlock = lib.UnlockMovables
+lib.IsLocked = lib.AreMovablesLocked
+lib.IterateOverlays = lib.IterateMovableOverlays
+lib.UpdateLayout = lib.UpdateMovableLayout
+lib.ResetLayout = lib.ResetMovableLayout
 
 -- Embedding
 
@@ -704,41 +793,44 @@ lib.embeds = lib.embeds or {}
 local embeds = lib.embeds
 
 local embeddedMethods = {
-	RegisterMovable = "RegisterMovable",
-	UpdateMovableLayout = "UpdateLayout",
-	ResetMovableLayout = "ResetLayout",
-	LockMovables = "Lock",
-	UnlockMovables = "Unlock",
-	AreMovablesLocked = "IsLocked",
-	IterateMovableOverlays = "IterateOverlays",
-	SetMovable = "SetMovable",
-	IsMovable = "IsMovable",
+	"RegisterMovable",
+	"UpdateMovableLayout",
+	"ResetMovableLayout",
+	"LockMovables",
+	"UnlockMovables",
+	"AreMovablesLocked",
+	"IterateMovableOverlays",
+	"SetMovable",
+	"IsMovable",
 }
 
 function lib.Embed(target, ...)
 	if target == lib then return lib.Embed(...) end
 	embeds[target] = true
-	for k, v in pairs(embeddedMethods) do
-		target[k] = lib[v]
+	for _, name in pairs(embeddedMethods) do
+		target[name] = lib[name]
+	end
+end
+
+function lib:SetEnabled(key, enabled)
+	for target, data in pairs(overlaysToBe) do
+		if not key or data.key == key then
+			lib.SetMovable(key, target, enabled, true)
+		end
+	end
+	for target, overlay in lib.IterateMovableOverlays(key) do
+		if not key or overlay.key == key then
+			lib.SetMovable(key, target, enabled, true)
+		end
 	end
 end
 
 function lib:OnEmbedEnable(key)
-	for target, data in pairs(overlaysToBe) do
-		lib.SetMovable(key, target, true, true)
-	end
-	for target, overlay in lib.IterateOverlays(key) do
-		lib.SetMovable(key, target, true, true)
-	end
+	lib:SetEnabled(key, true)
 end
 
 function lib:OnEmbedDisable(key)
-	for target, data in pairs(overlaysToBe) do
-		lib.SetMovable(key, target, false, true)
-	end
-	for target, overlay in lib.IterateOverlays(key) do
-		lib.SetMovable(key, target, false, true)
-	end
+	lib:SetEnabled(key, false)
 end
 
 -- Upgrading embeds and overlays from previous versions
@@ -756,8 +848,8 @@ end
 CONFIGMODE_CALLBACKS = CONFIGMODE_CALLBACKS or {}
 CONFIGMODE_CALLBACKS['Movable Frames'] = function(action)
 	if action == "ON" then
-		lib.Unlock()
+		lib.UnlockMovables()
 	elseif action == "OFF" then
-		lib.Lock()
+		lib.LockMovables()
 	end
 end
