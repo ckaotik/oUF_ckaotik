@@ -167,7 +167,7 @@ function ns.SharedStyle(self, unit, isSingle)
 	-- raid marker
 	local raidIcon = self:CreateTexture(nil, 'ARTWORK', nil, 1)
 	      raidIcon:SetTexture('Interface\\AddOns\\'..addonName..'\\media\\raidicons')
-	self.RaidIcon = raidIcon
+	self.RaidTargetIndicator = raidIcon
 
 	if isBoss then
 		raidIcon:SetSize(24, 24)

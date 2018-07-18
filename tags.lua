@@ -107,7 +107,7 @@ oUF.Tags.Methods['ckaotik:health'] = function(unit)
 	return text
 end
 
-oUF.Tags.Events['ckaotik:unitcolor'] = 'UNIT_REACTION UNIT_FACTION'
+oUF.Tags.Events['ckaotik:unitcolor'] = 'UNIT_FACTION' -- @todo UNIT_REACTION
 oUF.Tags.Methods['ckaotik:unitcolor'] = function(unit)
 	local color
 	if UnitIsPlayer(unit) then
@@ -218,7 +218,7 @@ oUF.Tags.Methods["ckaotik:threat"] = function(unit)
 	end
 end
 
-oUF.Tags.Events['ckaotik:altpower']  = 'UNIT_POWER_BAR_SHOW UNIT_POWER_BAR_HIDE UNIT_POWER UNIT_MAXPOWER'
+oUF.Tags.Events['ckaotik:altpower']  = 'UNIT_POWER_BAR_SHOW UNIT_POWER_BAR_HIDE UNIT_POWER_UPDATE UNIT_MAXPOWER'
 oUF.Tags.Methods['ckaotik:altpower'] = function(unit)
 	local barType, minPower, startInset, endInset, smooth, hideFromOthers, showOnRaid, opaqueSpark, opaqueFlash, powerName, powerTooltip = UnitAlternatePowerInfo(unit)
 	if not barType then return end

@@ -174,6 +174,8 @@ end
 
 function ns.ClassIcons(self, unit)
 	local maxIcons = math.max(UnitPowerMax('player', data.power) or 0, MAX_CLASS_ICONS)
+	MAX_CLASS_ICONS = maxIcons
+
 	local classIcons = CreateFrame('Frame', nil, self)
 	      classIcons:SetSize(maxIcons * (iconWidth + 2*padding), (iconHeight + 2*padding))
 	classIcons.PostUpdate = PostUpdate

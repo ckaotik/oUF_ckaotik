@@ -48,7 +48,7 @@ local function PostCreateIcon(element, icon)
 end
 
 local function PostUpdateIcon(element, unit, button, index, offset)
-	-- local name, rank, texture, count, debuffType, duration, timeLeft, caster, canStealOrPurge, shouldConsolidate, spellID, canApplyAura, isBossDebuff, isCastByPlayer = UnitAura(unit, index, element.filter)
+	-- local name, texture, count, debuffType, duration, timeLeft, caster, canStealOrPurge, shouldConsolidate, spellID, canApplyAura, isBossDebuff, isCastByPlayer = UnitAura(unit, index, element.filter)
 
 	if button.owner == 'player' or button.isPlayer then
 		button.icon:SetDesaturated(false)
@@ -68,7 +68,7 @@ local function PostUpdateBuffs(element, unit)
 end
 
 local function CustomFilter(element, unit, icon, ...)
-	local name, rank, texture, count, debuffType, duration, timeLeft, caster, canStealOrPurge, shouldConsolidate, spellID, canApplyAura, isBossDebuff, isCastByPlayer = ... -- UnitAura(unit, _index)
+	local name, texture, count, debuffType, duration, timeLeft, caster, canStealOrPurge, shouldConsolidate, spellID, canApplyAura, isBossDebuff, isCastByPlayer = ... -- UnitAura(unit, _index)
 
 	-- global lists
 	if ns.Find(ns.db.auras.showList, spellID) or ns.Find(ns.db.auras.showList, name) then
@@ -110,7 +110,7 @@ local function CustomFilter(element, unit, icon, ...)
 end
 
 local function CustomBossFilter(element, unit, icon, ...)
-	local name, rank, texture, count, debuffType, duration, timeLeft, caster, canStealOrPurge, shouldConsolidate, spellID, canApplyAura, isBossDebuff, isCastByPlayer = ... -- UnitAura(unit, _index)
+	local name, texture, count, debuffType, duration, timeLeft, caster, canStealOrPurge, shouldConsolidate, spellID, canApplyAura, isBossDebuff, isCastByPlayer = ... -- UnitAura(unit, _index)
 
 	local isMine = caster == 'player' or caster == 'pet' or caster == 'vehicle'
 	local hasCustom, alwaysShowMine, showForMySpec = SpellGetVisibilityInfo(spellID, 'ENEMY_TARGET')
