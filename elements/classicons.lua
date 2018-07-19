@@ -44,9 +44,9 @@ local config = {
 		padding = 0,
 		glowPadding = 0,
 		showEmpty = true,
-		power = _G.SPELL_POWER_HOLY_POWER,
+		power = _G.Enum.PowerType.HolyPower,
 	},
-	['PRIEST'] = {
+	--[[['PRIEST'] = {
 		-- inverted y-coords to allow filling the texture bottom->top. texture matches the crazyness
 		fill = {'Interface\\PlayerFrame\\Priest-ShadowUI', { 0.45703125, 0.60546875, 0.44531250, 0.73437500 }},
 		bg 	 = {'Interface\\PlayerFrame\\Priest-ShadowUI', { 0.30078125, 0.44921875, 0.44531250, 0.73437500 }},
@@ -55,8 +55,8 @@ local config = {
 		padding = 0,
 		glowPadding = 0,
 		showEmpty = true,
-		power = _G.SPELL_POWER_SHADOW_ORBS,
-	},
+		power = _G.Enum.PowerType.ShadowOrbs,
+	},--]]
 	['MONK'] = { -- Interface\\PLAYERFRAME\\MonkUI
 		fill = {'Interface\\PlayerFrame\\MonkLightPower', { 0, 1, 0, 1 }},
 		bg   = {'Interface\\PLAYERFRAME\\MonkNoPower',    { 0, 1, 0, 1 }},
@@ -65,7 +65,7 @@ local config = {
 		padding = 0,
 		glowPadding = 0,
 		showEmpty = true,
-		power = _G.SPELL_POWER_CHI,
+		power = _G.Enum.PowerType.Chi,
 	},
 	--[[ ['WARLOCK'] = {
 		fill = {'Interface\\PlayerFrame\\ClassOverlayWarlockShards', { 0, 1, 0, 1 }},
@@ -75,7 +75,7 @@ local config = {
 		padding = 0,
 		glowPadding = 0,
 		showEmpty = true,
-		power = _G.SPELL_POWER_SOUL_SHARDS,
+		power = _G.Enum.PowerType.SoulShards,
 	}, --]]
 	default = {
 		-- inverted y-coords to allow filling the texture bottom->top. texture matches the crazyness
@@ -86,7 +86,7 @@ local config = {
 		padding = 4,
 		glowPadding = 6,
 		showEmpty = nil,
-		power = _G.SPELL_POWER_COMBO_POINTS,
+		power = _G.Enum.PowerType.ComboPoints,
 	}
 }
 
