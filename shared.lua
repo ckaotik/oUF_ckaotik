@@ -41,9 +41,9 @@ local function PlayerStyle(self, unit)
 	end
 
 	if class == 'ROGUE' or class == 'WARLOCK' or class == 'MONK' or class == 'PALADIN' then
-		self.ClassIcons = ns.ClassIcons(self, unit)
-		self.ClassIcons:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT')
-		bottomOffset = (bottomOffset or 0) + self.ClassIcons:GetHeight()
+		self.ClassPower = ns.ClassIcons(self, unit)
+		self.ClassPower:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT')
+		bottomOffset = (bottomOffset or 0) + self.ClassPower:GetHeight()
 	end
 
 	self.Totems = ns.Totems(self, unit)
@@ -81,15 +81,16 @@ function ns.SharedStyle(self, unit, isSingle)
 	self.colors.power['RUNIC_POWER'] 	= {0, 0.82, 1}
 	self.colors.power['SOUL_SHARDS'] 	= {0.83, 0.6, 1}
 	self.colors.power['HOLY_POWER'] 	= {1, 1, 0.4}
-	self.colors.power['ECLIPSE'] = {
+	self.colors.power['LUNAR_POWER']    = {0.3, 1, 1}
+	--[[self.colors.power['ECLIPSE'] = {
 		['SOLAR'] = {1, 1, 0.3},
 		['LUNAR'] = {0.3, 1, 1},
-	}
+	}--]]
 	self.colors.runes = {
 		{0.69, 0.31, 0.31}, -- Blood
-		{0.33, 0.59, 0.33}, -- Unholy
 		{0.31, 0.45, 0.63}, -- Frost
-		{0.84, 0.75, 0.65}, -- Death
+		{0.33, 0.59, 0.33}, -- Unholy
+		-- {0.84, 0.75, 0.65}, -- Death
 	}
 	self.colors.totems = {
 		{0.80, 0.72, 0.29},	-- Earth
