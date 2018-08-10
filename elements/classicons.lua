@@ -161,7 +161,7 @@ local function CreateClassIcon(element, index)
 	      border:SetPoint('BOTTOMRIGHT', cIcon, 'BOTTOMRIGHT', padding, -padding)
 	      border:SetTexture(data.bg[1])
 	      border:SetTexCoord(unpack(data.bg[2]))
-	cIcon.border = border
+	cIcon.bg = border
 
 	if index == 1 then
 		cIcon:SetPoint('TOPLEFT', element, padding, -padding)
@@ -172,6 +172,9 @@ local function CreateClassIcon(element, index)
 
 	-- animations
 	CreateAnimationFlash(cIcon)
+
+	-- Make sure that colors and stuff are applied.
+	element:ForceUpdate()
 end
 
 local function PreUpdate(element)
@@ -194,7 +197,6 @@ local function PostUpdate(element, cur, max, hasMaxChanged, powerType)
 		else
 			-- Show/hide icons in case max has changed.
 			for index, classIcon in ipairs(element) do
-				classIcon.border:SetShown(index <= max)
 				classIcon:SetShown(index <= max)
 			end
 			element:Show()
