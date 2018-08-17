@@ -68,16 +68,19 @@ local config = {
 		showEmpty = true,
 		power = _G.Enum.PowerType.Chi,
 	},
-	--[[ ['WARLOCK'] = {
-		fill = {'Interface\\PlayerFrame\\ClassOverlayWarlockShards', { 0, 1, 0, 1 }},
-		bg   = {'Interface\\PlayerFrame\\ClassOverlayWarlockShards', { 0, 1, 0, 1 }},
-		glow = nil,
-		size = {20, 20},
+	 ['WARLOCK'] = {
+		-- fill = {'Interface\\PlayerFrame\\ClassOverlayWarlockShards', { 0, 1, 0, 1 }},
+		-- bg   = {'Interface\\PlayerFrame\\ClassOverlayWarlockShards', { 0, 1, 0, 1 }},
+		-- glow = nil,
+		fill = {'Interface\\AddOns\\'..addonName..'\\media\\combo', {0/64, 64/64, 0/16, 16/16}},
+		bg   = {'Interface\\AddOns\\'..addonName..'\\media\\combo', {16/64, 32/64, 0/16, 16/16}},
+		glow = {'Interface\\AddOns\\'..addonName..'\\media\\combo', {32/64, 48/64, 0/16, 16/16}},
+		size = {16, 16},
 		padding = 0,
 		glowPadding = 0,
 		showEmpty = true,
 		power = _G.Enum.PowerType.SoulShards,
-	}, --]]
+	},
 	default = {
 		fill = {'Interface\\AddOns\\'..addonName..'\\media\\combo', {0/64, 64/64, 0/16, 16/16}},
 		bg   = {'Interface\\AddOns\\'..addonName..'\\media\\combo', {16/64, 32/64, 0/16, 16/16}},
@@ -162,6 +165,7 @@ local function CreateClassIcon(element, index)
 	      border:SetTexture(data.bg[1])
 	      border:SetTexCoord(unpack(data.bg[2]))
 	cIcon.bg = border
+	cIcon.bg.multiplier = 0.5
 
 	if index == 1 then
 		cIcon:SetPoint('TOPLEFT', element, padding, -padding)

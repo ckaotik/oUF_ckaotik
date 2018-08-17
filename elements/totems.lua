@@ -25,16 +25,15 @@ local config = {
 	-- 	glowPadding = 6,
 	-- 	showEmpty = nil,
 	-- },
-	-- TODO: Mage: rune of power
+	-- TODO: Mage: rune of power, DK: Army of the dead?
 	default = {
-		-- inverted y-coords to allow filling the texture bottom->top. texture matches the crazyness
-		fill = {'Interface\\AddOns\\'..addonName..'\\media\\combo', { 0/64,  8/64, 8/16,  0/16}},
+		fill = {'Interface\\AddOns\\'..addonName..'\\media\\combo', {0/64, 64/64, 0/16, 16/16}},
 		bg   = {'Interface\\AddOns\\'..addonName..'\\media\\combo', {16/64, 32/64, 0/16, 16/16}},
 		glow = {'Interface\\AddOns\\'..addonName..'\\media\\combo', {32/64, 48/64, 0/16, 16/16}},
-		size = {8, 8},
+		size = {16, 16},
 		padding = 4,
 		glowPadding = 6,
-		showEmpty = false,
+		showEmpty = nil,
 	}
 }
 local data = config[unitClass] or config.default
